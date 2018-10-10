@@ -1,10 +1,17 @@
 package com.derteuffel.data;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -12,30 +19,42 @@ import java.util.Date;
  */
 
 @Entity
-public class User {
+public class User implements Serializable{
 
     @Id
     @GeneratedValue
     private Long userId;
 
     @Column
-    private  String userName;
+    @NotNull
+    @Size(min = 2)
+    private  String name;
     @Column
-    private String userEmail;
+    @Email
+    @NotNull
+    private String email;
     @Column
-    private String userPassword;
+    @NotNull
+    @Length(min = 6)
+    private String password;
+    @NotNull
     @Column
-    private String userCountry;
+    private String country;
     @Column
-    private String userRegion;
+    @NotNull
+    @Size(min = 3)
+    private String region;
     @Column
-    private String userUniversity;
+    @Size(min = 2)
+    private String university;
     @Column
-    private String userSpeciality;
+    @Size(min = 3)
+    private String faculty;
     @Column
-    private String userPhone;
+    @NotNull
+    private String number;
     @Column
-    private String userImage;
+    private String img;
     @Column
     private Date createdDate= new Date();
 
@@ -43,28 +62,42 @@ public class User {
     public User() {
     }
 
-    public User(String userName, String userEmail, String userPassword, String userCountry, String userRegion, String userSpeciality) {
-        this.userName = userName;
-        this.userEmail = userEmail;
-        this.userPassword = userPassword;
-        this.userCountry = userCountry;
-        this.userRegion = userRegion;
-        this.userSpeciality = userSpeciality;
+    public User(@NotNull @Size(min = 2) String name, @Email @NotNull String email, @NotNull @Length(min = 6) String password, @NotNull String country,
+                @NotNull @Size(min = 3) String region, @NotNull String number) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.country = country;
+        this.region = region;
+        this.number = number;
     }
 
-    public User(String userName, String userEmail, String userPassword, String userCountry,
-                String userRegion, String userUniversity, String userSpeciality, String userPhone,
-                String userImage) {
-        this.userName = userName;
-        this.userEmail = userEmail;
-        this.userPassword = userPassword;
-        this.userCountry = userCountry;
-        this.userRegion = userRegion;
-        this.userUniversity = userUniversity;
-        this.userSpeciality = userSpeciality;
-        this.userPhone = userPhone;
-        this.userImage = userImage;
+    public User(@NotNull @Size(min = 2) String name, @Email @NotNull String email, @NotNull @Length(min = 6) String password, @NotNull String country,
+                @NotNull @Size(min = 3) String region, @Size(min = 2) String university, @Size(min = 3) String faculty, @NotNull String number, String img ) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.country = country;
+        this.region = region;
+        this.university = university;
+        this.faculty = faculty;
+        this.number = number;
+        this.img = img;
+
     }
+
+    public User(String name, String email, String password, String country, String region, String number, String faculty, String img) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.country = country;
+        this.region = region;
+        this.university = university;
+        this.faculty = faculty;
+        this.number = number;
+        this.img = img;
+    }
+
 
     public Long getUserId() {
         return userId;
@@ -74,78 +107,77 @@ public class User {
         this.userId = userId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getName() {
+        return name;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getUserEmail() {
-        return userEmail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getUserPassword() {
-        return userPassword;
+    public String getPassword() {
+        return password;
     }
 
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getUserCountry() {
-        return userCountry;
+    public String getCountry() {
+        return country;
     }
 
-    public void setUserCountry(String userCountry) {
-        this.userCountry = userCountry;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
-    public String getUserRegion() {
-        return userRegion;
+    public String getRegion() {
+        return region;
     }
 
-    public void setUserRegion(String userRegion) {
-        this.userRegion = userRegion;
+    public void setRegion(String region) {
+        this.region = region;
     }
 
-    public String getUserUniversity() {
-        return userUniversity;
+    public String getUniversity() {
+        return university;
     }
 
-    public void setUserUniversity(String userUniversity) {
-        this.userUniversity = userUniversity;
+    public void setUniversity(String university) {
+        this.university = university;
     }
 
-    public String getUserSpeciality() {
-        return userSpeciality;
+    public String getFaculty() {
+        return faculty;
     }
 
-    public void setUserSpeciality(String userSpeciality) {
-        this.userSpeciality = userSpeciality;
+    public void setFaculty(String faculty) {
+        this.faculty = faculty;
     }
 
-    public String getUserPhone() {
-        return userPhone;
+    public String getNumber() {
+        return number;
     }
 
-    public void setUserPhone(String userPhone) {
-        this.userPhone = userPhone;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
-    public String getUserImage() {
-        return userImage;
+    public String getImg() {
+        return img;
     }
 
-    public void setUserImage(String userImage) {
-        this.userImage = userImage;
+    public void setImg(String img) {
+        this.img = img;
     }
-
 
     public Date getCreatedDate() {
         return createdDate;
