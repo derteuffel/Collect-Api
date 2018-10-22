@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Neword">
+
+    <!-- Title Page-->
+    <title>Theses Collection</title>
+    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+    <link th:href="@{/css/dashboard.css}" rel="stylesheet">
+    <!-- Bootstrap CSS-->
+    <link th:href="@{/vendor/bootstrap-4.1/bootstrap.min.css}" rel="stylesheet" media="all">
+
+<body class="row">
+<div class="col-1 sidebar" >
+    <div class="logo-div"><img alt="logo" class="logo" th:src="@{/images/logo.png}"></div>
+    <div class="sidebar-items">
+        <a  href="/theses"><button id="thesesButton">Thèses</button></a>
+        <a href="/users"><button id="usersLink" >Utilisateurs</button></a>
+        <a href="/stats"><button id="statsLink" >Statistiques</button></a>
+    </div>
+</div>
+<div class="col main" >
+    <nav class="nav" style="width:100%">
+        <div>
+            <img class="profile-img" th:src="${session.avatar}" alt="avatar">
+        </div>
+        <select class="log-out">
+            <option th:text="${session.name}"></option>
+            <option>Deconnexion</option>
+        </select>
+    </nav>
+    <div class="row content">
+        <div class="col-2 text-center">
+            <div class="profile-img-div" id="addButton">
+                <i class="zmdi zmdi-edit upload" id="upload"></i>
+                <img class="profile-img-1" id="img" th:src="${user.img}" name="file" alt="avatar">
+            </div>
+            <strong th:text="${user.name}">Neword Orquel</strong>
+            <div class="row mt-3 roles">
+                <div class="col-6 text-left">
+                    <label for="root">Root</label>
+                    <label for="admin">Admin</label>
+                    <label for="user">User</label>
+                </div>
+                <div class="col-6 roles-radio">
+                    <div><input type="radio" id="root" name="role" value="root"></div>
+                    <div><input type="radio" id="admin" name="role" value="admin"></div>
+                    <div><input type="radio" checked="checked" id="user" name="role" value="user"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-10">
+            <form method="POST" enctype="multipart/form-data" id="register-form" th:action="@{/user/create}" th:object="${user}" class=" profil-form card">
+                <div class="row">
+                    <div class="col-6">
+                        <span class='error' id="nameError"></span>
+                        <input type="text" th:field="*{name}" id="name" placeholder="Votre Nom" />
+                    </div>
+                    <div class="col-6">
+                        <span class='error' id="emailError"></span>
+                        <input type="email" th:field="*{email}" id="email" placeholder="Votre Email" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class=" col-6">
+                        <div class="country">
+                            <select th:field="*{country}" id="countrySelect">
+                                <option value="Cameroun">Cameroun</option>
+                                <option value="Côte d'ivoire">Côte d'ivoire</option>
+                            </select>
+                            <input type="text" th:field="*{number}" id="number" placeholder="Votre Numéro" value="+237" />
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <span class='error' id="regionError"></span>
+                        <input type="text" th:field="*{region}" id="region" placeholder="Votre Région" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <span class='error' id="universityError"></span>
+                        <input type="text" th:field="*{university}" id="university" placeholder="Votre Université" />
+                    </div>
+                    <div class="col-6">
+                        <span class='error' id="facultyError"></span>
+                        <input type="text" th:field="*{faculty}" id="faculty" placeholder="Votre Faculté" />
+                    </div>
+                </div>
+                <!--div class="row">
+                    <div class="col-6">
+                        <span class='error' id="passwordError"></span>
+                        <input type="password" autocomplete="" name="password" id="password" placeholder="Mot de Passe" />
+                    </div>
+                    <div class="col-6">
+                        <span class='error' id="repassError"></span>
+                        <input autocomplete="" type="password" id="repass" placeholder="Confirmation Mot de Passe" />
+                    </div>
+                </div-->
+                <input type="file" name="file" id="file_image" style="display:none">
+                <input type="text" name="role" id="right"  style="display:none">
+            </form>
+            <div class="save-button-div">
+                <button class="btn btn-success save-button" id="submit"><i class="zmdi zmdi-check"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/js/main.js}" type="module"></script>
+<script th:src="@{/js/dashboard.js}"></script>
+</body>
+
+</html>

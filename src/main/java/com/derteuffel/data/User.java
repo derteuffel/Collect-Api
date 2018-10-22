@@ -1,6 +1,7 @@
 package com.derteuffel.data;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,6 +14,9 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by derteuffel on 06/10/2018.
@@ -57,6 +61,15 @@ public class User implements Serializable{
     private String img;
     @Column
     private Date createdDate= new Date();
+    @Column
+    private int active;
+
+    @OneToMany(mappedBy = "user")
+    private List<These> theses;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
 
 
     public User() {
@@ -73,7 +86,7 @@ public class User implements Serializable{
     }
 
     public User(@NotNull @Size(min = 2) String name, @Email @NotNull String email, @NotNull @Length(min = 6) String password, @NotNull String country,
-                @NotNull @Size(min = 3) String region, @Size(min = 2) String university, @Size(min = 3) String faculty, @NotNull String number, String img ) {
+                @NotNull @Size(min = 3) String region, @Size(min = 2) String university, @Size(min = 3) String faculty, @NotNull String number, String img, int active ) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -83,10 +96,10 @@ public class User implements Serializable{
         this.faculty = faculty;
         this.number = number;
         this.img = img;
-
+        this.active=active;
     }
 
-    public User(String name, String email, String password, String country, String region, String number, String faculty, String img) {
+    public User(String name, String email, String password, String country, String region, String university, String number, String faculty, String img) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -98,6 +111,45 @@ public class User implements Serializable{
         this.img = img;
     }
 
+    public User(User user) {
+        this.active= user.getActive();
+        this.email=user.getEmail();
+        this.name=user.getName();
+        this.country=user.getCountry();
+        this.region=user.getRegion();
+        this.faculty=user.getFaculty();
+        this.university=user.getUniversity();
+        this.img=user.getImg();
+        this.number=user.getNumber();
+        this.userId= user.getUserId();
+        this.password=user.getPassword();
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    @JsonIgnore
+    public List<These> getTheses() {
+        return theses;
+    }
+
+
+    public void setTheses(List<These> theses) {
+        this.theses = theses;
+    }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
+    }
 
     public Long getUserId() {
         return userId;
