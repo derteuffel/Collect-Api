@@ -4,6 +4,7 @@ package com.derteuffel.data;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.internal.engine.groups.Group;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -67,9 +68,13 @@ public class User implements Serializable{
     @OneToMany(mappedBy = "user")
     private List<These> theses;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    @OneToOne
+    @JoinColumn(name = "role")
+    private Role role;
+
+    @ManyToMany
+    @JoinTable(name = "groupe_user")
+    private Set<Groupe> groupes=new HashSet<Groupe>();
 
 
     public User() {
@@ -125,12 +130,20 @@ public class User implements Serializable{
         this.password=user.getPassword();
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+   public Set<Groupe> getGroupes() {
+        return groupes;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setGroupes(Set<Groupe> groupes) {
+        this.groupes = groupes;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @JsonIgnore

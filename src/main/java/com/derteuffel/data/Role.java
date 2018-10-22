@@ -16,6 +16,9 @@ private Long roleId;
 
     private String role;
 
+    @OneToOne(mappedBy = "role")
+    private User user;
+
     public Role() {
     }
 
@@ -39,5 +42,11 @@ private Long roleId;
         this.role = role;
     }
 
+    public User getUser() {
+        return user;
+    }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

@@ -17,22 +17,21 @@ public class Groupe implements Serializable{
     @GeneratedValue
     private Long groupeId;
     @Column
-    private String groupe;
+    private String groupeName;
 
     @ManyToMany
-    @JoinTable(name = "groupe_user", joinColumns = {@JoinColumn(name = "groupe")},
-    inverseJoinColumns = {@JoinColumn(name = "user")})
     private Set<User> users= new HashSet<User>();
 
     @OneToMany(mappedBy = "groupe")
-    private ArrayList<These> theses= new ArrayList<These>();
+    private List<These> theses;
 
-    public Groupe(String groupe) {
-        this.groupe = groupe;
+    public Groupe(String groupeName) {
+        this.groupeName = groupeName;
     }
 
     public Groupe() {
     }
+
 
     public Long getGroupeId() {
         return groupeId;
@@ -42,15 +41,15 @@ public class Groupe implements Serializable{
         this.groupeId = groupeId;
     }
 
-    public String getGroupe() {
-        return groupe;
+    public String getGroupeName() {
+        return groupeName;
     }
 
-    public void setGroupe(String groupe) {
-        this.groupe = groupe;
+    public void setGroupeName(String groupeName) {
+        this.groupeName = groupeName;
     }
 
-    public Set<User> getUsers() {
+   public Set<User> getUsers() {
         return users;
     }
 
@@ -58,11 +57,11 @@ public class Groupe implements Serializable{
         this.users = users;
     }
 
-    public ArrayList<These> getTheses() {
+    public List<These> getTheses() {
         return theses;
     }
 
-    public void setTheses(ArrayList<These> theses) {
+    public void setTheses(List<These> theses) {
         this.theses = theses;
     }
 }

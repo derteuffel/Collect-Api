@@ -40,6 +40,9 @@ public class FileUploadService {
             // Check if the file's name contains invalid characters
             if(fileName.contains("..")) {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+            }else if (fileName.isEmpty()){
+                fileName=null;
+                return fileName;
             }
 
             // Copy file to the target location (Replacing existing file with the same name)

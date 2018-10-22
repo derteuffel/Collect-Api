@@ -8,7 +8,7 @@
 
     <!-- Title Page-->
     <title>Theses Collection</title>
-    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
     <!-- thymeleaft -->
     <link th:href="@{/css/style.css}" rel="stylesheet">
     <link th:href="@{/css/dashboard.css}" rel="stylesheet">
@@ -25,28 +25,17 @@
     <link href="./css/addTheses.css" rel="stylesheet">
 </head>
 <body class="row">
+
 <!-- sidebar-->
-<div class="col-1 sidebar">
-    <div class="logo-div"><img alt="logo" class="logo" th:src="@{/images/logo.png}" src="./images/logo.png"</div>
-    <div class="sidebar-items">
-        <a href="/theses"><button id="thesesButton">Thèses</button></a>
-        <a href="/users"><button id="usersLink">Utilisateurs</button></a>
-        <a href="/stats"><button id="statsLink">Statistiques</button></a>
-    </div>
-</div>
+<div th:replace="~{../templates/fragments/sidebar :: sidebar}">
 </div>
 <!-- sidebar-->
+
 <div class="col main">
-    <!--navigation -->
-    <nav class="nav" style="width:100%">
-        <div>
-            <img class="profile-img" th:src="${session.avatar}" alt="avatar">
-        </div>
-        <select class="log-out">
-            <option th:text="${session.name}"></option>
-            <option>Deconnexion</option>
-        </select>
-    </nav>
+
+    <!--navigation-->
+    <div th:insert="~{../templates/fragments/navigation :: navigation}">
+    </div>
     <!-- navigation -->
     <!-- showing theses-->
     <div class="row content">
@@ -71,7 +60,6 @@
                 <td th:text="${these.subject}"></td>
                 <td th:text="${these.theseDate}"></td>
                 <td>
-                    <a th:href="'#'+${these.theseId}"  alt="modifier"><i class="zmdi zmdi-brush"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
                     <a th:href="'#'+${these.theseId}"   class="detailLink" alt="detail"><i class="zmdi zmdi-eye" data-toggle="modal" data-target="#detail"></i></a>
                 </td>
             </tr>
@@ -252,8 +240,9 @@
             <div class=" detailCard card text-center" style="padding:2rem">
                 <div class="modal-content" style="border:none;">
                        <div class="text-right">
-                        <i class="zmdi zmdi-delete zmdi-hc-2x" style="color:red;"></i>&nbsp;&nbsp;&nbsp;
-                        <i data-dismiss="modal" class="zmdi zmdi-close zmdi-hc-2x" style="color:green;"></i>
+                        <i class="zmdi zmdi-delete zmdi-hc-2x" style="color:red;"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                           <a id="detailUpdateRoute" href="" alt="modifier"><i class="zmdi zmdi-brush zmdi-hc-2x" style="color:blue;"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                           <i data-dismiss="modal" class="zmdi zmdi-close zmdi-hc-2x" style="color:green;"></i>
                     </div>
                     <h3>Université et localisation</h3>
                     <table class="table table-bordered">
@@ -335,13 +324,11 @@
     <!-- these detail-->
 
     <!-- scripts-->
-    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
-    <script th:src="@{/vendor/bootstrap-4.1/bootstrap.min.js}"></script>
+        <!--vendor scripts -->
+            <div th:insert="~{../templates/fragments/scripts :: scripts}"></div>
+        <!--vendor scripts -->
     <script th:src="@{/js/dashboard.js}"></script>
     <script th:src="@{/js/showTheses.js}"></script>
-
-    <script src="/vendor/jquery/jquery.min.js"></script>
-    <script src="/vendor/bootstrap-4.1/bootstrap.min.js"></script>
     <!-- scripts-->
 
 </body>

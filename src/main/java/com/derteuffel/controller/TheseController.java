@@ -121,7 +121,7 @@ public class TheseController {
         theseService.delete(theseId);
     }
 
-    @PutMapping("/update")
+    /*@PutMapping("/update")
     @ResponseBody
     public These updateThese(These these, @RequestParam("file") MultipartFile file){
 
@@ -137,7 +137,13 @@ public class TheseController {
 
        return theseRepository.save(these);
     }
+*/
 
+    @GetMapping("/update/{theseId}")
+    public  String update(Model model, @PathVariable Long theseId){
+        model.addAttribute("these", theseRepository.getOne(theseId));
+        return "these/theseUpdate";
+    }
     @GetMapping("/user/{userId}")
     public List<These> findByUser(@PathVariable Long userId){
 

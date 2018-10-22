@@ -34,7 +34,7 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private FileUploadService fileUploadService;
+    private FileUploadServices fileUploadServices;
     @Autowired
     private RoleRepository roleRepository;
     @Autowired
@@ -90,26 +90,30 @@ public class UserController {
 
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String createUser(@Valid User user, @RequestParam("file") MultipartFile file, BindingResult bindingResult, String role) {
-        String fileName = fileUploadService.storeFile(file);
-        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/downloadFile/")
-                .path(fileName)
-                .toUriString();
+            String fileName = fileUploadServices.storeFile(file);
+            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("/downloadFile/")
+                    .path(fileName)
+                    .toUriString();
+
+            FileUploadRespone fileUploadRespone = new FileUploadRespone(fileName, fileDownloadUri);
+            user.setImg(fileUploadRespone.getFileDownloadUri());
+
+
 
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setActive(1);
         Role userRole = roleRepository.findByRole(role);
         if (userRole== null){
             Role newRole= new Role("user");
-            user.setRoles(new HashSet<Role>(Arrays.asList(newRole)));
+            user.setRole(new Role(newRole.getRole()));
             System.out.println(userRole);
         }else {
-            user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
+            user.setRole(userRole);
         }
 
 
-        FileUploadRespone fileUploadRespone = new FileUploadRespone(fileName, fileDownloadUri);
-        user.setImg(fileUploadRespone.getFileDownloadUri());
+
         User user1=userRepository.findByEmail(user.getEmail());
         if (user1!=null){
 

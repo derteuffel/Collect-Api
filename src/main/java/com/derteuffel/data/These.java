@@ -49,6 +49,8 @@ public class These implements Serializable{
 
     @ManyToOne
     private User user;
+    @ManyToOne
+    private Groupe groupe;
     public These() {
     }
 
@@ -72,6 +74,14 @@ public class These implements Serializable{
         this.created_at = created_at;
         this.theseDate=theseDate;
         this.country=country;
+    }
+
+   public Groupe getGroupe() {
+        return groupe;
+    }
+
+    public void setGroupe(Groupe groupe) {
+        this.groupe = groupe;
     }
 
     public String getCountry() {
